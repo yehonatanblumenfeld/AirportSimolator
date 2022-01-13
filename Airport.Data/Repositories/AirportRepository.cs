@@ -13,78 +13,110 @@ namespace Airport.Data.Repositories
     public class AirportRepository : IAirportRepository
 
     {
+        private readonly IServiceProvider _serviceProvider;
+        
+        public AirportRepository(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
-        private readonly AirportContext _airportContext;
-        public AirportRepository(AirportContext airportContext) => _airportContext = airportContext;
-
-        public  void AddPlane(Plane plane)
+        public void AddPlane(Plane plane)
         {
-
-            //if (plane.PlaneId == 0)
-            //    plane.PlaneId = 1;
-
-            if (plane != null)
+            using (var scoped = _serviceProvider.CreateScope())
             {
-                _airportContext.Planes.Add(plane);
-                _airportContext.SaveChanges();
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
+                //if (plane.PlaneId == 0)
+                //    plane.PlaneId = 1;
+
+                if (plane != null)
+                {
+                    context.Planes.Add(plane);
+                    context.SaveChanges();
+                }
             }
         }
 
         public async Task<Plane> GetPlaneById(int id)
         {
-            if (id != 0)
+            using (var scoped = _serviceProvider.CreateScope())
             {
-                return await _airportContext.Planes.Where(p => p.PlaneId == id).FirstOrDefaultAsync();
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
+
+                if (id != 0)
+                {
+                    return await context.Planes.Where(p => p.PlaneId == id).FirstOrDefaultAsync();
+                }
+                else return null;
             }
-            else return null;
         }
 
         public async Task<List<Plane>> GetPlanes()
         {
+            using (var scoped = _serviceProvider.CreateScope())
+            {
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
 
-            return await _airportContext.Planes.ToListAsync();
+                return await context.Planes.ToListAsync();
+            }
         }
 
-        public  void RemovePlane(Plane plane)
+        public void RemovePlane(Plane plane)
         {
-            if (plane != null)
+            using (var scoped = _serviceProvider.CreateScope())
             {
-                _airportContext.Planes.Remove(plane);
-                _airportContext.SaveChanges();
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
+                if (plane != null)
+                {
+                    context.Planes.Remove(plane);
+                    context.SaveChanges();
+                }
             }
         }
 
         public async Task<List<StationForDB>> GetStations()
         {
-            return await _airportContext.Stations.ToListAsync();
-
-        }
-
-        public  void AddStation(StationForDB stationForDB)
-        {
-            if (stationForDB != null)
+            using (var scoped = _serviceProvider.CreateScope())
             {
-                 _airportContext.Stations.Add(stationForDB);
-                 _airportContext.SaveChanges();
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
+                return await context.Stations.ToListAsync();
             }
         }
 
-        public async Task UpdateStation(int stationId, int? planeId, string planeName ,bool isEmpty)
+        public void AddStation(StationForDB stationForDB)
         {
-            var station = _airportContext.Stations.Find(stationId);
-            station.CurrectPlaneId = planeId;
-            station.IsEmpty = isEmpty;
-            station.CurrectPlaneName = planeName;
-            //_airportContext.Stations.Update(station);
-            await _airportContext.SaveChangesAsync();
+            using (var scoped = _serviceProvider.CreateScope())
+            {
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
+                if (stationForDB != null)
+                {
+                    context.Stations.Add(stationForDB);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        public async Task UpdateStation(int stationId, int? planeId, string planeName, bool isEmpty)
+        {
+            using (var scoped = _serviceProvider.CreateScope())
+            {
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
+
+                var station = context.Stations.Find(stationId);
+                station.CurrectPlaneId = planeId;
+                station.IsEmpty = isEmpty;
+                station.CurrectPlaneName = planeName;
+                //_airportContext.Stations.Update(station);
+                await context.SaveChangesAsync();
+            }
         }
 
         public void UpdateIsPlaneLanded(int planeId, bool isLanded)
         {
-            var plane =  _airportContext.Planes.Find(planeId);
-            plane.IsLanded = isLanded;
-            _airportContext.Planes.Update(plane);
-            _airportContext.SaveChanges();
+            using (var scoped = _serviceProvider.CreateScope())
+            {
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
+                var plane = context.Planes.Find(planeId);
+                plane.IsLanded = isLanded;
+                context.Planes.Update(plane);
+                context.SaveChanges();
+            }
         }
     }
 }

@@ -39,7 +39,7 @@ namespace AirportSimolator
                 });
             });
 
-            services.AddDbContext<AirportContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")) , ServiceLifetime.Singleton);
+            services.AddDbContext<AirportContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSingleton<IAirportRepository, AirportRepository>();
 

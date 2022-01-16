@@ -3,7 +3,6 @@ using Airport.Business.Services;
 using Airport.Data.Repositories;
 using AirportSimolator.DataContext;
 using AirportSimolator.Hubs;
-using AirportSimolator.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -42,11 +41,7 @@ namespace AirportSimolator
             services.AddDbContext<AirportContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSingleton<IAirportRepository, AirportRepository>();
-
             services.AddSingleton<IHubService , HubService>();
-
-            
-
             services.AddSingleton<IAirportLogic, AirportLogic>();
             services.AddSingleton<IPlanesService,PlanesService>();
             services.AddSingleton<IStationService, StationService>();

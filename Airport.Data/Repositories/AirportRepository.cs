@@ -21,9 +21,7 @@ namespace Airport.Data.Repositories
         {
             using (var scoped = _serviceProvider.CreateScope())
             {
-                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();
-                //if (plane.PlaneId == 0)
-                //    plane.PlaneId = 1;
+                var context = scoped.ServiceProvider.GetRequiredService<AirportContext>();             
 
                 if (plane != null)
                 {
@@ -101,8 +99,7 @@ namespace Airport.Data.Repositories
                 var station = context.Stations.Find(stationId);
                 station.CurrectPlaneId = planeId;
                 station.IsEmpty = isEmpty;
-                station.CurrectPlaneName = planeName;
-                //_airportContext.Stations.Update(station);
+                station.CurrectPlaneName = planeName;            
                 await context.SaveChangesAsync();
             }
         }

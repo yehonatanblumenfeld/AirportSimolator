@@ -1,12 +1,8 @@
 ﻿using Airport.Business.Interfaces;
-using Airport.Business.Services;
 using Airport.Models.ModelsForDB;
 using AirportSimolator.Interfaces;
-using AirportSimolator.Models;
 using Microsoft.AspNetCore.SignalR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AirportSimolator.Hubs
@@ -16,17 +12,7 @@ namespace AirportSimolator.Hubs
     {
         private readonly IHubContext<AirportClientHub, IAirportClientHub> _hubContext;
 
-        public HubService(IHubContext<AirportClientHub, IAirportClientHub> hubContext, IStationService stationService)
-        {
-            _hubContext = hubContext;
-        }
-        public Task AutoDepart() => _hubContext.Clients.All.AutoDepart();
-
-        public Task AutoLand() => _hubContext.Clients.All.AutoLand();
-
-        public Task DepartPlane(Plane plane) => _hubContext.Clients.All.DepartPlane(plane);
-
-        public Task LandPlane(Plane plane) => _hubContext.Clients.All.LandPlane(plane);
+        public HubService(IHubContext<AirportClientHub, IAirportClientHub> hubContext, IStationService stationService) => _hubContext = hubContext;
 
         public async Task sendPlaneUpdate(string planeName, int stationId)
         {

@@ -1,10 +1,6 @@
 ﻿using Airport.Business.Interfaces;
 using AirportSimolator.Models;
-using Microsoft.AspNetCore.SignalR;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Airport.Business.Services
@@ -107,7 +103,6 @@ namespace Airport.Business.Services
         public async Task EnterToStation(Station currectStation, Plane plane, Station prevStation)
         {
             await currectStation.Semaphore.WaitAsync(); //locking the thread cuz we dont want another plane in the station 
-            Console.WriteLine($"enterd station {currectStation.StationId}");
             currectStation.CurrectPlane = plane;
 
             if (prevStation != null)
@@ -138,7 +133,7 @@ namespace Airport.Business.Services
                 {
                     await _stationService.UpdateStation(currectStation.StationId, null, null, true); //removing the plane from the previous station 
                     _planesService.RemovePlane(plane); // plane removed from planes list
-                    await _hubService.SendUpdatedStations(await _stationService.GetStations());
+                     await _hubService.SendUpdatedStations(await _stationService.GetStations());
                     currectStation.IsEmpty = true;
                     currectStation.Semaphore.Release();
                 }

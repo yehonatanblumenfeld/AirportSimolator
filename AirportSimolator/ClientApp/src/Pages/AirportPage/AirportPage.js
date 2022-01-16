@@ -19,21 +19,12 @@ const AirportPage =  () => {
             connect.on("SendUpdatedStations", (stations) => {
                 console.log(stations);
                 setStations(stations);
-            });
-
-            connect.on("LandPlane", (plane) => {
-                console.log(plane)
-            });
-
-            connect.on("DepartPlanes");
-
+            });         
             connect.on("GetStations", (stations) => {
                 console.log(stations);
                 setStations(stations);
             });
-
-            connect.on("LandPlanes");
-
+         
             connect.on("sendPlaneUpdate", (msg) => {
                 console.log(msg);
             });

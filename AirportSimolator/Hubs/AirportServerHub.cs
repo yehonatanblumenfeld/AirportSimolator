@@ -1,9 +1,6 @@
-﻿using Airport.Business.Services;
+﻿using Airport.Business.Interfaces;
 using AirportSimolator.Models;
 using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AirportSimolator.Hubs
@@ -22,17 +19,17 @@ namespace AirportSimolator.Hubs
 
         public async Task LandPlane(string planeName)
 
-        {          
+        {
             var planes = await _planesService.GetPlanes();
 
             //checks if there is another plane with the same name
             var planeWithSameName = planes.Find(p => p.PlaneName.ToLower() == planeName.ToLower());
-            
+
             //if there is a plane with the same name return
             if (planeWithSameName != null) return;
 
             //creating plane and adding to DB
-            var plane = new Plane { PlaneName = planeName };         
+            var plane = new Plane { PlaneName = planeName };
             _planesService.AddPlane(plane);
             var count = planes.Count + 1;
 

@@ -1,11 +1,7 @@
 ﻿using AirportSimolator.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Airport.Business.Services
+namespace Airport.Business.Interfaces
 {
     public interface IAirportLogic
     {

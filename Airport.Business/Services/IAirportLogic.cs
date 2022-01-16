@@ -11,7 +11,7 @@ namespace Airport.Business.Services
     {
         void LandPlane(Plane plane);
 
-        void DepartPlane(Plane plane);
+        Task DepartPlane(Plane plane);
 
         Task EnterToStation(Station currectStation , Plane plane, Station prevStation);
 

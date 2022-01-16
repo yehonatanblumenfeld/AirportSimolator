@@ -9,7 +9,7 @@ namespace AirportSimolator.Models
     public class Station
     {
         public int StationId { get; set; }
-        public Plane currectPlane { get; set; }
+        public Plane CurrectPlane { get; set; }
         public StationStateEnum StationState { get; set; }
         public bool IsEmpty { get;  set; }
         public TimeSpan TimeInStation { get; set; }
@@ -34,10 +34,10 @@ namespace AirportSimolator.Models
         public async Task EnterStation(Plane plane)
         {
             await this.Semaphore.WaitAsync();
-            currectPlane = plane;
+            CurrectPlane = plane;
             IsEmpty = false;
             await Task.Delay(TimeInStation);
-            currectPlane = null;
+            CurrectPlane = null;
             IsEmpty = true;
             this.Semaphore.Release();
         }    

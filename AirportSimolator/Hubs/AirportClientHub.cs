@@ -19,13 +19,13 @@ namespace AirportSimolator.Hubs
             _stationService = stationService;
             _planeService = planesService;
             _airportLogic = airportLogic;
-        }   
-   
-        //public async Task GetStations()
-        //{           
-        //    var list = await _stationService.GetStations();    
-            
-        //}
+        }
+
+        public async Task GetStations()
+        {
+            var list = await _stationService.GetStations();
+            await Clients.All.GetStations(list);
+        }
         //public void LandPlanes()
         //{
         //    var planes = _planeService.GetPlanes();
@@ -59,6 +59,6 @@ namespace AirportSimolator.Hubs
         //        _airportLogic.DepartPlane(airplane);
         //    }
         //}
-       
+
     }
 }

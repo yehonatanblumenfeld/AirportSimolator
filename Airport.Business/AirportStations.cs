@@ -27,14 +27,14 @@ namespace Airport.Business.Services
         {
             // initializing stations
             stations = new List<Station>() {
-                new Station(1 , true , StationStateEnum.Landing , new TimeSpan(0,0,1)),
-                new Station(2,  true , StationStateEnum.Landing , new TimeSpan(0, 0, 1)),
-                new Station(3,  true , StationStateEnum.Landing , new TimeSpan(0, 0, 1)),
+                new Station(1 , true , StationStateEnum.Landing , new TimeSpan(0,0,2)),
+                new Station(2,  true , StationStateEnum.Landing , new TimeSpan(0, 0, 2)),
+                new Station(3,  true , StationStateEnum.Landing , new TimeSpan(0, 0,2)),
                 new Station(4,  true , StationStateEnum.LandingAndTakeOff , new TimeSpan(0, 0, 3)),
-                new Station(5,  true , StationStateEnum.Landing , new TimeSpan(0, 0, 1)),
-                new Station(6,  true , StationStateEnum.Parking , new TimeSpan(0, 0, 2)),
-                new Station(7,  true , StationStateEnum.Parking , new TimeSpan(0, 0, 2)),
-                new Station(8,  true , StationStateEnum.TakeOff , new TimeSpan(0, 0, 1))
+                new Station(5,  true , StationStateEnum.Landing , new TimeSpan(0, 0, 3)),
+                new Station(6,  true , StationStateEnum.Parking , new TimeSpan(0, 0, 7)),
+                new Station(7,  true , StationStateEnum.Parking , new TimeSpan(0, 0, 5)),
+                new Station(8,  true , StationStateEnum.TakeOff , new TimeSpan(0, 0, 4))
             };
             landPath = new List<Station>();
             depaturePath = new List<Station>();
@@ -47,10 +47,10 @@ namespace Airport.Business.Services
             landPath.Add(stations[5]); //station 6 Parking
             landPath.Add(stations[6]); //station 7 Parking
 
-            depaturePath.Add(stations[5]); //station 6 Parking
-            depaturePath.Add(stations[6]); //station 7 Parking
-            depaturePath.Add(stations[7]); //station 8 TakeOff
-            depaturePath.Add(stations[3]); //station 4 LandingAndTakeOff
+            depaturePath.Add(stations[5]); //station 6 Parking            0
+            depaturePath.Add(stations[6]); //station 7 Parking            1
+            depaturePath.Add(stations[7]); //station 8 TakeOff            2
+            depaturePath.Add(stations[3]); //station 4 LandingAndTakeOff  3
 
         }
     }

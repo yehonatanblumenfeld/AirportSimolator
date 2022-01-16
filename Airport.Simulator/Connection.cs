@@ -21,18 +21,15 @@ namespace Airport.Simulator
                 {
                     logic.Message = msg;
                     logic.PlanesCount = count;
+                    logic.WriteMenuCommands();
                 });
 
                 connection.On("DepartPlane", (string msg) =>
                 {
                     logic.Message = msg;
-                });
-
-                connection.On("GetPlanes", (List<Plane> planes) =>
-                {
-                    logic.Planes = planes;
-                });
-
+                    logic.WriteMenuCommands();
+                });  
+                
                 connection.KeepAliveInterval = TimeSpan.FromSeconds(5);
                 connection.ServerTimeout = TimeSpan.FromMinutes(2);
 

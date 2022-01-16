@@ -20,5 +20,7 @@ namespace AirportSimolator.Interfaces
         Task AutoDepart();
 
         Task DepartPlane(Plane plane);
+
+        Task GetStations(List<StationForDB> stations);
     }
 }

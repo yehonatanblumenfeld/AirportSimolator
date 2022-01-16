@@ -1,0 +1,30 @@
+﻿.box {  
+    height: 240px;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 150%;
+    background-image: url(https://images.assetsdelivery.com/compings_v2/eriksvoboda/eriksvoboda1411/eriksvoboda141100036.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:cover;
+    border-width: thick;
+    color: white;
+}
+.box h4{
+    margin-top:-20px;   
+}
+.box.Landing {
+    width: 270px;
+}
+.box.LandingAndTakeOff {
+    width: 400px;
+    color: yellow;
+}
+.box.Parking {     
+    width: 270px;
+    color:limegreen;
+ }
+.box.TakeOff {
+    width: 400px;
+    color:orange;
+}

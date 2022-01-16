@@ -1,47 +1,41 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap');
+body {
     margin: 40px;
+    background-image: url(https://static.vecteezy.com/system/resources/previews/004/809/136/non_2x/modern-airport-runway-airplane-on-the-runway-airport-in-a-flat-style-city-silhouette-illustration-vector.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+h1 {
+    font-size: 100px;
+    margin-bottom: 100px;
+    font-weight: bolder;
+    font-family: "Mochiy Pop P One";
+   
 }
 .wrapper {
+    align-items: center;
     display: grid;
-    grid-template-columns: 100px 100px 100px 200px;
-    grid-gap: 10px;
-    background-color: #fff;
-    color: #444;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 30px;
 }
+.wrapper div {
+    border-width: 2px;
+    border-color: black;
+    margin: 15px;
+    text-align: center;
+}
+
 .box {
-    background-color: #444;
-    color: #fff;
+    width: 200px;
+    height: 150px;
     border-radius: 5px;
     padding: 20px;
     font-size: 150%;
-}
-.box.landing {
-    background-color: green; 
-}
-    .box.landingAndTakeoff {
-        background-color: red;
-        grid-column: 1 / span 2;
-        
-    }
-.box.parking {
-    background-color: blue;
-}
-.box.takeOff {
-    background-color: orange;
-}
-p.green{
-    background-color:green;
-    width:150px;
-}
-p.red {
-    background-color: red;
-    width: 150px;
-}
-p.blue {
-    background-color: blue;
-    width: 150px;
-}
-p.orange {
-    background-color: orange;
-    width: 150px;
 }

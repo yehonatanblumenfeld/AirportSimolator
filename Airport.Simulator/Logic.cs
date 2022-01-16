@@ -12,7 +12,6 @@ namespace Airport.Simulator
 
         Timer _landPlaneTimer;
         Timer _departPlaneTimer;
-        Timer _GetPlanesTimer;
 
         Random _random;
         string[] _planesCompanies;
@@ -26,11 +25,9 @@ namespace Airport.Simulator
 
         public string Message { get; set; }
         public int PlanesCount { get; set; }
-        public List<Plane> Planes { get; set; }
 
         public Logic()
         {
-            Planes = new List<Plane>();
             _simulatorConnection = new Connection(this);
             Message = "no messages";
 
@@ -44,21 +41,9 @@ namespace Airport.Simulator
             _departPlaneTimer.Interval = 2000;
             _departPlaneTimer.Enabled = true;
 
-            //////timers that gets planes
-            //_GetPlanesTimer = new Timer();
-            //_GetPlanesTimer.Interval = 1000;
-            //_GetPlanesTimer.Enabled = true;
-            //_GetPlanesTimer.Elapsed += _GetPlanesTimer_Elapsed;
-            //_GetPlanesTimer.Start();
-
-            _planesCompanies = new string[] {"IsraAir","El-Al", "Boeing", "Airbus", "Lockheed Martin", "safran", "Leonardo", "DeltaAir" };
+            _planesCompanies = new string[] { "IsraAir", "El-Al", "Boeing", "Airbus", "Lockheed Martin", "safran", "Leonardo", "DeltaAir" };
 
             _random = new Random();
-        }
-
-        private void _GetPlanesTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            _simulatorConnection.ConnectionInstance.InvokeAsync("GetPlanes");
         }
 
         public void WriteMenuCommands()
@@ -85,7 +70,7 @@ namespace Airport.Simulator
             Console.WriteLine("-  departplane - depart plane");
             Console.WriteLine("-     exit     -  stop and exit's the application  \n");
 
-            Console.WriteLine($"Current number of planes in airport {Planes.Count}");
+            Console.WriteLine($"Current number of planes in airport {PlanesCount}");
             Console.ResetColor();
             Console.WriteLine("------------------------------Messages------------------------------");
             Console.ForegroundColor = _messageColor;
@@ -152,22 +137,16 @@ namespace Airport.Simulator
                     break;
             }
             _simulatorConnection.ConnectionInstance.InvokeAsync("LandPlane", planeName);
-            WriteMenuCommands();
-        }
-
-        private void GetPlanes()
-        {
-            _simulatorConnection.ConnectionInstance.InvokeAsync("GetPlanes").Wait();
         }
 
         private void DepartPlane()
         {
             var planeName = "";
-            Console.WriteLine("Departing Process");
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("Enter plane name:");
             while (true)
             {
+                Console.WriteLine("Departing Process");
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("Enter plane name:");
                 planeName = Console.ReadLine();
                 if (!string.IsNullOrWhiteSpace(planeName))
                     break;
@@ -187,7 +166,7 @@ namespace Airport.Simulator
             {
                 _landPlaneTimer.Elapsed -= LandPlaneTimer_Elapsed;
                 _landPlaneTimer.Stop();
-            }        
+            }
         }
 
         public void DepartPlaneAuto()
@@ -211,9 +190,8 @@ namespace Airport.Simulator
             {
                 _simulatorConnection.ConnectionInstance.StartAsync().Wait();
                 _simulatorConnection.ConnectionInstance.InvokeAsync("GetPlanes");
-                Message = "server connected succesfully";               
+                Message = "server connected succesfully";
             }
-            GetPlanes();
         }
 
         public void Disconnect()
@@ -234,18 +212,14 @@ namespace Airport.Simulator
                 var planeName = $"{_planesCompanies[_random.Next(0, _planesCompanies.Length)]} {_random.Next(100)}";
                 _simulatorConnection.ConnectionInstance.InvokeAsync("LandPlane", planeName);
             }
-            WriteMenuCommands();
         }
 
         private void DepartPlaneTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (_simulatorConnection.ConnectionInstance.State == HubConnectionState.Connected)
-            {
-                var planeName = $"{_planesCompanies[_random.Next(0, _planesCompanies.Length)]} {_random.Next(100)}";
-                _simulatorConnection.ConnectionInstance.InvokeAsync("DepartPlane", planeName);
+            {             
+                _simulatorConnection.ConnectionInstance.InvokeAsync("DepartPlanesAuto");
             }
-            WriteMenuCommands();
         }
-
     }
 }

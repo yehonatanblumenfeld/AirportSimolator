@@ -5,7 +5,7 @@ namespace Airport.Business.Interfaces
 {
     public interface IAirportLogic
     {
-        void LandPlane(Plane plane);
+        Task LandPlane(Plane plane);
 
         Task DepartPlane(Plane plane);
 

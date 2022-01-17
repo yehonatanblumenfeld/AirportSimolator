@@ -36,6 +36,7 @@ namespace Airport.Business.Services
                 new Station(7,  true , StationStateEnum.Parking , new TimeSpan(0, 0, 5)),
                 new Station(8,  true , StationStateEnum.TakeOff , new TimeSpan(0, 0, 4))
             };
+
             landPath = new List<Station>();
             depaturePath = new List<Station>();
 

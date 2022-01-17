@@ -25,7 +25,7 @@ namespace Airport.Business.Services
             _departStations = AirportStations.Instance.depaturePath;
         }
 
-        public async void LandPlane(Plane plane)
+        public async Task LandPlane(Plane plane)
         {
             for (int i = 0; i < _landStations.Count - 1; i++)
             {
@@ -33,30 +33,26 @@ namespace Airport.Business.Services
                 {
                     if (i > 0)
                     {
-
                         await EnterToStation(_landStations[i], plane, _landStations[i - 1]);
-                    }
-                    else
-                    {
-                        await EnterToStation(_landStations[i], plane, null);
-                    }
+                        continue;
+                    }   
+                    
+                    await EnterToStation(_landStations[i], plane, null);
+                    continue;
                 }
-                else
+
+                while (true)
                 {
-                    while (true)
+                    if (_landStations[i].IsEmpty)
                     {
-                        if (_landStations[i].IsEmpty)
-                        {
+                        await EnterToStation(_landStations[i], plane, _landStations[i - 1]);
+                        return;
+                    }
 
-                            await EnterToStation(_landStations[i], plane, _landStations[i - 1]);
-                            return;
-                        }
-                        else if (_landStations[i + 1].IsEmpty)
-                        {
-
-                            await EnterToStation(_landStations[i + 1], plane, _landStations[i - 1]);
-                            return;
-                        }
+                    if (_landStations[i + 1].IsEmpty)
+                    {
+                        await EnterToStation(_landStations[i + 1], plane, _landStations[i - 1]);
+                        return;
                     }
                 }
             }
@@ -70,7 +66,7 @@ namespace Airport.Business.Services
             {
                 if (stationIndex > 0)
                 {
-                    if(stationIndex == 2)
+                    if (stationIndex == 2)
                         await EnterToStation(_departStations[stationIndex], plane, _departStations[firstStation]);
                     else
                         await EnterToStation(_departStations[stationIndex], plane, _departStations[stationIndex - 1]);
@@ -122,22 +118,19 @@ namespace Airport.Business.Services
             if (currectStation.StationState == Station.StationStateEnum.Parking && plane.IsLanded == false)
             {
                 await _stationService.UpdateStation(currectStation.StationId, null, null, true); //removing the plane from the previous station 
-                _planesService.UpdateIsPlaneLanded(plane.PlaneId, true);
-                await _hubService.SendUpdatedStations(await _stationService.GetStations());
-                currectStation.IsEmpty = true;
-                currectStation.Semaphore.Release();
+                _planesService.UpdateIsPlaneLanded(plane.PlaneId, true);             
             }
             else if (plane.IsLanded)
             {
                 if (currectStation.StationState == Station.StationStateEnum.LandingAndTakeOff)
                 {
                     await _stationService.UpdateStation(currectStation.StationId, null, null, true); //removing the plane from the previous station 
-                    _planesService.RemovePlane(plane); // plane removed from planes list
-                     await _hubService.SendUpdatedStations(await _stationService.GetStations());
-                    currectStation.IsEmpty = true;
-                    currectStation.Semaphore.Release();
+                    _planesService.RemovePlane(plane); // plane removed from planes list              
                 }
             }
+            await _hubService.SendUpdatedStations(await _stationService.GetStations());
+            currectStation.IsEmpty = true;
+            currectStation.Semaphore.Release();
         }
     }
 }
